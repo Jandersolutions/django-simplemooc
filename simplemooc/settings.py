@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-from django.conf.global_settings import MEDIA_ROOT
+from django.conf.global_settings import DEFAULT_FROM_EMAIL, EMAIL_BACKEND, \
+    EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_USE_TLS, \
+    MEDIA_ROOT
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -129,3 +131,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'simplemooc', 'media')
 MEDIA_URL = '/media/'
+
+# EMAIL
+#envio de email padrão
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#envio de email ao console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'Janderson <jba1719@gmail.com>'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'jba1719@gmail.com'
+EMAIL_HOST_PASSWORD = 'j4nderSON@5899'
+EMAIL_PORT = 587
+CONTACT_EMAIL = 'jba1719@gmail.com'
+

@@ -14,7 +14,7 @@ import os
 
 from django.conf.global_settings import DEFAULT_FROM_EMAIL, EMAIL_BACKEND, \
     EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_USE_TLS, \
-    MEDIA_ROOT
+    LOGIN_REDIRECT_URL, LOGIN_URL, MEDIA_ROOT
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -145,4 +145,9 @@ EMAIL_HOST_USER = 'jba1719@gmail.com'
 EMAIL_HOST_PASSWORD = 'j4nderSON@5899'
 EMAIL_PORT = 587
 CONTACT_EMAIL = 'jba1719@gmail.com'
+
+#auth
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'core:home'
+LOGOUT_URL = 'accouns:logout'
 

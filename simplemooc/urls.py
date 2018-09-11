@@ -26,7 +26,8 @@ from simplemooc.settings import MEDIA_ROOT, MEDIA_URL
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include(('simplemooc.core.urls','core'),namespace='core')),
-    path('cursos/',include(('simplemooc.courses.urls','courses'),namespace='courses'))
+    path('cursos/',include(('simplemooc.courses.urls','courses'),namespace='courses')),
+    path('conta/',include(('simplemooc.accounts.urls','accounts'),namespace='accounts'))
 ]
 
 # somente para ambiente de desenvolvimento

@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'simplemooc.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'createdb'),
+        'NAME': os.environ.get('DB_NAME', 'simplemooc'),
         'USER': os.environ.get('DB_USER', 'janderson'),
         'PASSWORD': os.environ.get('DB_PASS', '58991719'),
         'HOST': 'localhost',
@@ -150,7 +150,7 @@ CONTACT_EMAIL = ''
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_URL = 'accouns:logout'
-AUTH_USER_MODEL = 'accounts:User'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 

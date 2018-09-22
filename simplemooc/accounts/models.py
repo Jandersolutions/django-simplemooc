@@ -10,8 +10,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         'Nome de Usuário', max_length=30, unique=True,
         validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
-                                              'O nome de usuário só pode conter letras, digitos ou os '
-                                              'seguintes caracteres: @/./+/-/_', 'invalid')]
+            'O nome de usuário só pode conter letras, digitos ou os '
+            'seguintes caracteres: @/./+/-/_', 'invalid')]
     )
     email = models.EmailField('E-mail', unique=True)
     name = models.CharField('Nome', max_length=100, blank=True)
@@ -35,11 +35,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         verbose_name = 'Usuário'
+        verbose_name_plural = 'Usuários'
+
 
 class PasswordReset(models.Model):
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name='Usuário', on_delete=models.CASCADE,
+        settings.AUTH_USER_MODEL, verbose_name='Usuário',on_delete=models.CASCADE,
         related_name='resets'
     )
     key = models.CharField('Chave', max_length=100, unique=True)

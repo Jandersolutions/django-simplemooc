@@ -1,33 +1,63 @@
-from django.conf import settings
-from django.conf.global_settings import LOGIN_URL
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.shortcuts import redirect, render
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from .forms import EditAccountForm
+from django.contrib.auth import get_user_model
+from django.conf import settings
+from simplemooc.core.utils import generate_hash_key
+from .forms import EditAccountForm, PasswordResetForm, RegisterForm
+from .models import PasswordReset
 
+User = get_user_model()
+
+@login_required
+def dashboard(request):
+    template_name = 'accounts/dashboard.html'
+    return render(request, template_name)
 
 def register(request):
     template_name = 'accounts/register.html'
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect(settings.LOGIN_URL)
+            user = form.save()
+            user = authenticate(
+                username=user.username, password=form.cleaned_data['password1']
+            )
+            login(request, user)
+            return redirect('core:home')
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
     context = {
-        'form' : form
+        'form': form
     }
-    return render(request,template_name,context)
+    return render(request, template_name, context)
 
-#decorator que so permite chamar a função abaixo no caso do usuario estar logado
-@login_required
-def dashboard(request):
-    template_name = 'accounts/dashboard.html'
-    form = EditAccountForm()
+def save(self, commit=True):
+    self.user.set_password(self.cleaned_data['password2'])
+    if commit:
+        self.user.save()
+    return self.user
+
+def password_reset(request):
+    template_name = 'accounts/password_reset.html'
     context = {}
+    form = PasswordResetForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        context['success'] = True
     context['form'] = form
-    return render(request,template_name,context)
+    return render(request, template_name, context)
+
+def password_reset_confirm(request, key):
+    template_name = 'accounts/password_reset_confirm.html'
+    context = {}
+    reset = get_object_or_404(PasswordReset, key=key)
+    form = SetPasswordForm(user=reset.user, data=request.POST or None)
+    if form.is_valid():
+        form.save()
+        context['success'] = True
+    context['form'] = form
+    return render(request, template_name, context)
 
 @login_required
 def edit(request):
@@ -57,9 +87,6 @@ def edit_password(request):
         form = PasswordChangeForm(user=request.user)
     context['form'] = form
     return render(request, template_name, context)
-
-
-
 
 
 
